@@ -95,3 +95,5 @@ gem 'rollbar'
 group :development do
   gem 'dotenv-rails'
 end
+
+gem 'bootstrap'
