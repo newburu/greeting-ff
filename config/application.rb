@@ -18,6 +18,13 @@ Bundler.require(*Rails.groups)
 
 module GreetingFf
   class Application < Rails::Application
+        config.generators do |g|
+      g.assets false
+      g.helper false
+      g.controller_specs false
+      g.view_specs false
+    end
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
