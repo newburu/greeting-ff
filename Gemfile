@@ -98,3 +98,4 @@ end
 
 gem 'bootstrap'
 gem 'font-awesome-rails'
+gem 'jquery-rails'
