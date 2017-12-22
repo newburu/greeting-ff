@@ -92,3 +92,6 @@ group :test do
 end
 
 gem 'rollbar'
+group :development do
+  gem 'dotenv-rails'
+end
