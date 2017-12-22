@@ -79,3 +79,6 @@ group :development do
 end
 
 gem 'inherited_resources', github: 'josevalim/inherited_resources'
+group :development do
+  gem 'rubocop'
+end
