@@ -64,3 +64,7 @@ end
 group :test do
   gem 'factory_girl'
 end
+
+group :test do
+  gem 'capybara'
+end
