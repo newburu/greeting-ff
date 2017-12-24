@@ -1,10 +1,41 @@
 doctype html
-html
+html lang="en"
   head
-    title
-      | GreetingFf
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    title= content_for?(:title) ? yield(:title) : Settings.system[:title]
     = csrf_meta_tags
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag "application", :media => "all"
+    = javascript_include_tag "application"
+    /! Le HTML5 shim, for IE6-8 support of HTML elements
+    /[if lt IE 9]
+      = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"
+
   body
-    = yield
+    .navbar.navbar-default.navbar-static-top
+        .container
+          button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a = link_to Settings.system[:title], root_path, {class: 'navbar-brand'}
+          .navbar-collapse.collapse.navbar-responsive-collapse
+            ul.nav.navbar-nav
+              - if user_signed_in?
+                = "#{current_user.name}さん"
+                li = link_to 'ログアウト', destroy_user_session_path
+              - else
+                li = link_to "twitterでログイン", user_twitter_omniauth_authorize_path
+                
+              li= link_to "このサイトについて", static_pages_info_path
+              li= link_to "更新履歴＆予定", static_pages_update_path
+
+    .container
+      .row
+        .col-lg-9
+          = bootstrap_flash
+          = yield
+
+      footer
+        p class="license" &copy; Copyright. 2018 Newburu All Rights Reserved.
