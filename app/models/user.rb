@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   devise :trackable, :omniauthable
   
+  has_many :followers
+  
   validates :name, presence: true, uniqueness: true
 
   def self.new_with_session(params, session)

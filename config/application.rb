@@ -46,5 +46,8 @@ module GreetingFf
     config.time_zone = 'Tokyo'
     config.active_record.default_timezone = :local
     config.i18n.default_locale = :ja
+    
+    # sessionをDBに保存
+    config.session_store :active_record_store, :key => '_my_app_session'
   end
 end

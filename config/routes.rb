@@ -14,5 +14,11 @@ Rails.application.routes.draw do
   end
 
   resources :tops, param: :name, path: '/'
+  resources :followers, param: :name do
+    member do
+      get 'update'
+    end
+  end
+()
 
 end

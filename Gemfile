@@ -52,6 +52,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'slim-rails'
 gem 'devise'
+gem 'twitter'
+gem 'oauth'
 gem 'omniauth-twitter'
 gem 'friendly_id'
 group :development, :test do
@@ -109,3 +111,5 @@ gem 'therubyracer' # javascript runtime。lessをコンパイルするために�
 gem 'less-rails', git: 'https://github.com/MustafaZain/less-rails' # Railsでlessを使えるようにする。Bootstrapがlessで書かれているため
 gem 'twitter-bootstrap-rails' # Bootstrapの本体
 
+# sessionをDBに変更
+gem 'activerecord-session_store'

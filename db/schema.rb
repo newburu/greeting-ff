@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171222095648) do
+ActiveRecord::Schema.define(version: 20171227140817) do
+
+  create_table "followers", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "uid", limit: 8
+    t.string "name"
+    t.string "screen_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_followers_on_user_id"
+  end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
@@ -22,6 +32,15 @@ ActiveRecord::Schema.define(version: 20171222095648) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.string "session_id", null: false
+    t.text "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
+    t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
 
   create_table "users", force: :cascade do |t|
