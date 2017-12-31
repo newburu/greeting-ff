@@ -37,7 +37,7 @@ html lang="en"
                 = "#{current_user.name}さん"
               li = link_to 'ログアウト', destroy_user_session_path
             - else
-              li = link_to "twitterでログイン", user_twitter_omniauth_authorize_path
+              li = link_to "Twitterでログイン", user_twitter_omniauth_authorize_path
 
     .container
       .row
