@@ -12,6 +12,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.1]
       ##Omniauthable
       t.integer :uid, :limit => 8 #bigintにする
       t.string :name
+      t.string :screen_name
       t.string :provider
       t.string :password
 

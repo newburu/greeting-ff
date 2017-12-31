@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20171227140817) do
     t.string "last_sign_in_ip"
     t.integer "uid", limit: 8
     t.string "name"
+    t.string "screen_name"
     t.string "provider"
     t.string "password"
     t.datetime "created_at", null: false

@@ -26,7 +26,7 @@ html lang="en"
           .navbar-collapse.collapse.navbar-responsive-collapse
             ul.nav.navbar-nav
               - if user_signed_in?
-                = "#{current_user.name}さん"
+                li = "#{current_user.name}さん"
                 li = link_to 'フォロワーさん一覧', followers_path
                 li = link_to 'ログアウト', destroy_user_session_path
               - else
