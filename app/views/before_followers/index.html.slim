@@ -1,0 +1,27 @@
+h1 Listing before_followers
+
+table
+  thead
+    tr
+      th User
+      th Uid
+      th Name
+      th Screen name
+      th
+      th
+      th
+
+  tbody
+    - @before_followers.each do |before_follower|
+      tr
+        td = before_follower.user
+        td = before_follower.uid
+        td = before_follower.name
+        td = before_follower.screen_name
+        td = link_to 'Show', before_follower
+        td = link_to 'Edit', edit_before_follower_path(before_follower)
+        td = link_to 'Destroy', before_follower, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Before follower', new_before_follower_path

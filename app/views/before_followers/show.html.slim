@@ -1,0 +1,18 @@
+p#notice = notice
+
+p
+  strong User:
+  = @before_follower.user
+p
+  strong Uid:
+  = @before_follower.uid
+p
+  strong Name:
+  = @before_follower.name
+p
+  strong Screen name:
+  = @before_follower.screen_name
+
+=> link_to 'Edit', edit_before_follower_path(@before_follower)
+'|
+=< link_to 'Back', before_followers_path

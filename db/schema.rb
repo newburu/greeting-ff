@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171227140817) do
+ActiveRecord::Schema.define(version: 20171231050635) do
+
+  create_table "before_followers", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "uid", limit: 8
+    t.string "name"
+    t.string "screen_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_before_followers_on_user_id"
+  end
 
   create_table "followers", force: :cascade do |t|
     t.integer "user_id"

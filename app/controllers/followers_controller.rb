@@ -24,6 +24,7 @@ class FollowersController < ApplicationController
     end
     begin
       # フォロワー一覧を入れ直す為に、全削除
+      @user.backup_followers
       @user.followers.delete_all
 
       # フォロワー一覧を取得して、１００件ずつ情報を取得する

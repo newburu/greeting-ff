@@ -2,6 +2,7 @@ class User < ApplicationRecord
   devise :trackable, :omniauthable
   
   has_many :followers
+  has_many :before_followers
   
   validates :name, presence: true, uniqueness: true
 
@@ -29,4 +30,13 @@ class User < ApplicationRecord
     end
     user
   end
+
+  # FollowersをBeforeFollowersに移動させる
+  def backup_followers
+    self.before_followers.delete_all
+    self.followers.each do |follower|
+      BeforeFollower.create(user: self, name: follower.name, screen_name: follower.screen_name)
+    end
+  end
+
 end

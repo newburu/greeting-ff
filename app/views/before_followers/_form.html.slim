@@ -1,0 +1,11 @@
+= simple_form_for(@before_follower) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.association :user
+    = f.input :uid
+    = f.input :name
+    = f.input :screen_name
+
+  .form-actions
+    = f.button :submit
