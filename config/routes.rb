@@ -13,12 +13,11 @@ Rails.application.routes.draw do
     get 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
   end
 
-  resources :tops, param: :name, path: '/'
-  resources :followers, param: :name do
+  resources :followers do
     member do
-      get 'update'
+      get 'new_update'
     end
   end
-()
 
+  resources :tops
 end

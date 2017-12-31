@@ -20,13 +20,14 @@ html lang="en"
             span.icon-bar
             span.icon-bar
           - if user_signed_in?
-            a = link_to Settings.system[:title], top_path(current_user.name), {class: 'navbar-brand'}
+            a = link_to Settings.system[:title], root_path, {class: 'navbar-brand'}
           - else
             a = link_to Settings.system[:title], root_path, {class: 'navbar-brand'}
           .navbar-collapse.collapse.navbar-responsive-collapse
             ul.nav.navbar-nav
               - if user_signed_in?
                 = "#{current_user.name}さん"
+                li = link_to 'フォロワーさん一覧', followers_path
                 li = link_to 'ログアウト', destroy_user_session_path
               - else
                 li = link_to "twitterでログイン", user_twitter_omniauth_authorize_path

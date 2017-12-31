@@ -113,3 +113,8 @@ gem 'twitter-bootstrap-rails' # Bootstrapの本体
 
 # sessionをDBに変更
 gem 'activerecord-session_store'
+
+# 検索
+gem 'ransack'
+# ページネーション
+gem 'kaminari'
