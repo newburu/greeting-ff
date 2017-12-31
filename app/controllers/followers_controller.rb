@@ -10,6 +10,16 @@ class FollowersController < ApplicationController
     @followers = @q.result.page(params[:page])
   end
   
+  # 外れたフォロワーさん一覧を表示
+  def remove_index
+    @user = User.find_by(name: current_user.name)
+    q = params[:q] || {}
+    q[:user_id_eq] = @user.id
+    q[:remove_flg_eq] = true
+    @q = BeforeFollower.search(q)
+    @followers = @q.result.page(params[:page])
+  end
+  
   # フォロワーさん一覧を更新
   def new_update
     @user = User.find_by(name: current_user.name)
@@ -36,9 +46,13 @@ class FollowersController < ApplicationController
         follower = Follower.new(user: @user, uid: f.id, name: f.name, screen_name: f.screen_name)
         # フォロワーの状態チェック
         follower.check_status
-        follower.save
+        @user.followers << follower
       end
-      
+      @user.before_followers.each do |f|
+        # フォロワーの状態チェック
+        f.check_status
+      end
+      @user.save
       
     rescue Twitter::Error::TooManyRequests => error
       sleep error.rate_limit.reset_in

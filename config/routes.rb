@@ -18,6 +18,9 @@ Rails.application.routes.draw do
     member do
       get 'new_update'
     end
+    collection do
+      get 'remove_index'
+    end
   end
 
   resources :tops

@@ -27,6 +27,7 @@ html lang="en"
           ul.nav.navbar-nav
             - if user_signed_in?
               li = link_to 'フォロワーさん一覧', followers_path
+              li = link_to '外れたフォロワーさん一覧', remove_index_followers_path
               
             li= link_to "このサイトについて", static_pages_info_path
             li= link_to "更新履歴＆予定", static_pages_update_path

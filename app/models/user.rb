@@ -1,9 +1,14 @@
 class User < ApplicationRecord
   devise :trackable, :omniauthable
   
+  # 現在のフォロワーさん一覧
   has_many :followers
+  accepts_nested_attributes_for :followers
+
+  # 昔のフォロワーさん一覧
   has_many :before_followers
-  
+  accepts_nested_attributes_for :before_followers
+
   validates :name, presence: true, uniqueness: true
 
   def self.new_with_session(params, session)
@@ -35,7 +40,7 @@ class User < ApplicationRecord
   def backup_followers
     self.before_followers.delete_all
     self.followers.each do |follower|
-      BeforeFollower.create(user: self, uid: follower.uid, name: follower.name, screen_name: follower.screen_name)
+      self.before_followers << BeforeFollower.new(user: self, uid: follower.uid, name: follower.name, screen_name: follower.screen_name)
     end
   end
 

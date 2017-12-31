@@ -1,0 +1,17 @@
+h1 外れたフォロワーさん一覧
+
+table class="table table-striped table-hover "
+  thead
+    tr
+      th = sort_link(@q, :uid)
+      th = sort_link(@q, :name)
+      th = sort_link(@q, :screen_name)
+
+  tbody
+    - @followers.each do |follower|
+      tr
+        td = follower.uid
+        td = follower.name
+        td = link_to follower.screen_name, "https://twitter.com/#{follower.screen_name}", {target: '_blank'}
+
+= paginate @followers
