@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171231050635) do
+ActiveRecord::Schema.define(version: 20171231052517) do
 
   create_table "before_followers", force: :cascade do |t|
     t.integer "user_id"
@@ -29,6 +29,9 @@ ActiveRecord::Schema.define(version: 20171231050635) do
     t.string "screen_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "new_flg"
+    t.boolean "change_name_flg"
+    t.boolean "change_screen_name_flg"
     t.index ["user_id"], name: "index_followers_on_user_id"
   end
 

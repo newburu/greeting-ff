@@ -35,7 +35,7 @@ class User < ApplicationRecord
   def backup_followers
     self.before_followers.delete_all
     self.followers.each do |follower|
-      BeforeFollower.create(user: self, name: follower.name, screen_name: follower.screen_name)
+      BeforeFollower.create(user: self, uid: follower.uid, name: follower.name, screen_name: follower.screen_name)
     end
   end
 

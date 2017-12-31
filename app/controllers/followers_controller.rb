@@ -33,8 +33,13 @@ class FollowersController < ApplicationController
         users.concat(client.users(ids))
       end
       followers.each do |f|
-        Follower.create(user: @user, uid: f.id, name: f.name, screen_name: f.screen_name)
+        follower = Follower.new(user: @user, uid: f.id, name: f.name, screen_name: f.screen_name)
+        # フォロワーの状態チェック
+        follower.check_status
+        follower.save
       end
+      
+      
     rescue Twitter::Error::TooManyRequests => error
       sleep error.rate_limit.reset_in
       retry

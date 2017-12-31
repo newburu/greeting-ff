@@ -8,9 +8,9 @@ table class="table table-striped table-hover "
       th = sort_link(@q, :uid)
       th = sort_link(@q, :name)
       th = sort_link(@q, :screen_name)
-      th
-      th
-      th
+      th = sort_link(@q, :new_flg)
+      th = sort_link(@q, :change_name_flg)
+      th = sort_link(@q, :change_screen_name_flg)
 
   tbody
     - @followers.each do |follower|
@@ -18,5 +18,8 @@ table class="table table-striped table-hover "
         td = follower.uid
         td = follower.name
         td = link_to follower.screen_name, "https://twitter.com/#{follower.screen_name}", {target: '_blank'}
+        td = follower.new_flg
+        td = follower.change_name_flg
+        td = follower.change_screen_name_flg
 
 = paginate @followers
