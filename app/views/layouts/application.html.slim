@@ -14,26 +14,29 @@ html lang="en"
 
   body
     .navbar.navbar-default.navbar-static-top
-        .container
-          button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          - if user_signed_in?
-            a = link_to Settings.system[:title], root_path, {class: 'navbar-brand'}
-          - else
-            a = link_to Settings.system[:title], root_path, {class: 'navbar-brand'}
-          .navbar-collapse.collapse.navbar-responsive-collapse
-            ul.nav.navbar-nav
-              - if user_signed_in?
-                li = "#{current_user.name}さん"
-                li = link_to 'フォロワーさん一覧', followers_path
-                li = link_to 'ログアウト', destroy_user_session_path
-              - else
-                li = link_to "twitterでログイン", user_twitter_omniauth_authorize_path
-                
-              li= link_to "このサイトについて", static_pages_info_path
-              li= link_to "更新履歴＆予定", static_pages_update_path
+      .container
+        button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        - if user_signed_in?
+          a = link_to Settings.system[:title], root_path, {class: 'navbar-brand'}
+        - else
+          a = link_to Settings.system[:title], root_path, {class: 'navbar-brand'}
+        .navbar-collapse.collapse.navbar-responsive-collapse
+          ul.nav.navbar-nav
+            - if user_signed_in?
+              li = link_to 'フォロワーさん一覧', followers_path
+              
+            li= link_to "このサイトについて", static_pages_info_path
+            li= link_to "更新履歴＆予定", static_pages_update_path
+          ul.nav.navbar-nav
+            - if user_signed_in?
+              span.navbar-text
+                = "#{current_user.name}さん"
+              li = link_to 'ログアウト', destroy_user_session_path
+            - else
+              li = link_to "twitterでログイン", user_twitter_omniauth_authorize_path
 
     .container
       .row
