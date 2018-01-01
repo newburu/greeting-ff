@@ -1,0 +1,10 @@
+ja:
+  activerecord:
+    models:
+      before_follower: フォロワー
+    attributes:
+      before_follower:
+        uid: UID
+        name: 名前
+        screen_name: ユーザー名
+        remove_flg: 削除

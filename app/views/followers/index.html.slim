@@ -1,6 +1,6 @@
 h1 フォロワーさん一覧
 
-= link_to "フォロワーさん更新", new_update_follower_path(current_user.id)
+= link_to "フォロワーさん更新", new_update_follower_path(current_user.id), data: { :confirm => '更新します。よろしいですか?'}
 
 table class="table table-striped table-hover "
   thead
@@ -18,8 +18,8 @@ table class="table table-striped table-hover "
         td = follower.uid
         td = follower.name
         td = link_to follower.screen_name, "https://twitter.com/#{follower.screen_name}", {target: '_blank'}
-        td = follower.new_flg
-        td = follower.change_name_flg
-        td = follower.change_screen_name_flg
+        td = faicon_check(follower.new_flg)
+        td = faicon_check(follower.change_name_flg)
+        td = faicon_check(follower.change_screen_name_flg)
 
 = paginate @followers
