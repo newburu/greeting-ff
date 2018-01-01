@@ -14,36 +14,32 @@ html lang="en"
       = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"
 
   body
-    .navbar.navbar-default.navbar-static-top
-      .container
-        button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
-          span.icon-bar
-          span.icon-bar
-          span.icon-bar
-        - if user_signed_in?
-          a = link_to Settings.system[:title], root_path, {class: 'navbar-brand'}
-        - else
-          a = link_to Settings.system[:title], root_path, {class: 'navbar-brand'}
-        .navbar-collapse.collapse.navbar-responsive-collapse
-          ul.nav.navbar-nav
-            - if user_signed_in?
-              li = link_to 'フォロワーさん一覧', followers_path
-              li = link_to '外れたフォロワーさん一覧', remove_index_followers_path
-              
-            li= link_to "このサイトについて", static_pages_info_path
-            li= link_to "更新履歴＆予定", static_pages_update_path
-          ul.nav.navbar-nav
-            - if user_signed_in?
-              span.navbar-text
-                = "#{current_user.name}さん"
-              li = link_to 'ログアウト', destroy_user_session_path
-            - else
-              li = link_to "Twitterでログイン", user_twitter_omniauth_authorize_path
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
+      button.navbar-toggler.navbar-toggler-right type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation"
+        span.navbar-toggler-icon
+      = link_to Settings.system[:title], root_path, {class: 'navbar-brand'}
+      #navbar.navbar-collapse.collapse
+        ul.navbar-nav.mr-auto
+          - if user_signed_in?
+            li.nav-item = link_to 'フォロワーさん一覧', followers_path, {class: "nav-link"}
+            li.nav-item = link_to '外れたフォロワーさん一覧', remove_index_followers_path, {class: "nav-link"}
+            
+          li.nav-item = link_to "このサイトについて", static_pages_info_path, {class: "nav-link"}
+          li.nav-item = link_to "更新履歴＆予定", static_pages_update_path, {class: "nav-link"}
+        ul.nav.navbar-nav
+          - if user_signed_in?
+            span.navbar-text
+              = "#{current_user.name}さん"
+            li.nav-item = link_to 'ログアウト', destroy_user_session_path, {class: "nav-link"}
+          - else
+            li.nav-item = link_to "Twitterでログイン", user_twitter_omniauth_authorize_path, {class: "nav-link"}
 
     .container
       .row
-        .col-lg-9
-          = bootstrap_flash
+        .col-lg
+          - flash.each do |key, value|
+            div class="alert alert-#{key}"
+              = value
           = yield
 
       = render 'shared/adsense'
