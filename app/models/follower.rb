@@ -7,6 +7,7 @@ class Follower < ApplicationRecord
     self.new_flg = true
     self.change_name_flg = false
     self.change_screen_name_flg = false
+    self.mutual_flg = false
     
     # 以前のフォロワー一覧に存在するか
     before_follower = BeforeFollower.find_by(user: self.user, uid: self.uid)
@@ -16,6 +17,11 @@ class Follower < ApplicationRecord
       self.change_name_flg = true if before_follower.name != self.name
       self.change_screen_name_flg = true if before_follower.screen_name != self.screen_name
     end
+
+    # フレンド（フォロー）一覧に存在するか
+    friend = Friend.find_by(user: self.user, uid: self.uid)
+    self.mutual_flg = true if friend.present?
+
   end
 
 end

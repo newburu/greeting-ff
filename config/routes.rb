@@ -16,7 +16,8 @@ Rails.application.routes.draw do
 
   resources :followers do
     member do
-      get 'new_update'
+      get 'update_followers'
+      get 'update_friends'
     end
     collection do
       get 'remove_index'

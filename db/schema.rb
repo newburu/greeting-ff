@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171231091520) do
+ActiveRecord::Schema.define(version: 20180102031049) do
 
   create_table "before_followers", force: :cascade do |t|
     t.integer "user_id"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20171231091520) do
     t.boolean "new_flg"
     t.boolean "change_name_flg"
     t.boolean "change_screen_name_flg"
+    t.boolean "mutual_flg"
     t.index ["user_id"], name: "index_followers_on_user_id"
   end
 
@@ -46,6 +47,16 @@ ActiveRecord::Schema.define(version: 20171231091520) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
+  end
+
+  create_table "friends", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "uid", limit: 8
+    t.string "name"
+    t.string "screen_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_friends_on_user_id"
   end
 
   create_table "sessions", force: :cascade do |t|

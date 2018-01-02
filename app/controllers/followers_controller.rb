@@ -21,7 +21,7 @@ class FollowersController < ApplicationController
   end
   
   # フォロワーさん一覧を更新
-  def new_update
+  def update_followers
     @user = User.find_by(name: current_user.name)
     
     # Twitterから取得
@@ -52,6 +52,7 @@ class FollowersController < ApplicationController
         # フォロワーの状態チェック
         f.check_status
       end
+
       @user.save
       
     rescue Twitter::Error::TooManyRequests => error
@@ -61,4 +62,45 @@ class FollowersController < ApplicationController
     
     redirect_to followers_path
   end
+
+  # フレンド（フォロー）さん一覧を更新
+  def update_friends
+    @user = User.find_by(name: current_user.name)
+    
+    # Twitterから取得
+    client = Twitter::REST::Client.new do |config|
+      auth = session["DEVISE"]
+      config.consumer_key = ENV["TWITTER_API_KEY"]
+      config.consumer_secret = ENV["TWITTER_SECRET_KEY"]
+      config.access_token = auth.credentials.token
+      config.access_token_secret = auth.credentials.secret
+    end
+    begin
+      # 入れ直す為に、全削除
+      @user.friends.delete_all
+
+      # フレンド（フォロー）一覧を取得
+      friend_ids = client.friend_ids(user_id: @user.uid).to_a
+      friends = friend_ids.each_slice(100).to_a.inject ([]) do |users, ids|
+        users.concat(client.users(ids))
+      end
+      friends.each do |f|
+        friend = Friend.new(user: @user, uid: f.id, name: f.name, screen_name: f.screen_name)
+        @user.friends << friend
+      end
+      @user.followers.each do |f|
+        # フォロワーの状態チェック
+        f.check_status
+      end
+
+      @user.save
+      
+    rescue Twitter::Error::TooManyRequests => error
+      sleep error.rate_limit.reset_in
+      retry
+    end
+    
+    redirect_to followers_path
+  end
+
 end
