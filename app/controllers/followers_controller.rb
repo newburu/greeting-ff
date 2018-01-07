@@ -140,7 +140,7 @@ private
         remove_followers.each do |f|
           msg += "#{Settings.system[:twitter][:url]}#{f.screen_name}\r\n"
         end
-        msg += "\r\n詳細はログインしてご確認ください。#{root_url}"
+        msg += "\r\n詳細はログインしてご確認ください。\r\n#{root_url}"
 
         client.create_direct_message(user.uid, msg)
       end
