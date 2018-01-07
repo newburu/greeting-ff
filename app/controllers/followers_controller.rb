@@ -119,7 +119,7 @@ private
         change_screen_name_followers = Follower.change_screen_name_followers(user)
         remove_followers = BeforeFollower.remove_followers(user)
 
-        msg = "#FFさんに挨拶 よりお知らせ\r\n\r\n"
+        msg = "##{Settings.system[:title]} よりお知らせ\r\n\r\n"
         msg += "◆#{I18n.t('activerecord.attributes.follower.new_flg')}フォロワーさん\r\n"
         msg += "なし\r\n" if new_followers.blank?
         new_followers.each do |f|
