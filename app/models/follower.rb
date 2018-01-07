@@ -24,4 +24,19 @@ class Follower < ApplicationRecord
 
   end
 
+  # 新規フォロワーさん取得
+  def self.new_followers(user)
+    Follower.where(user: user, new_flg: true)
+  end
+
+  # 名前変更フォロワーさん取得
+  def self.change_name_followers(user)
+    Follower.where(user: user, change_name_flg: true)
+  end
+
+  # ユーザ名変更フォロワーさん取得
+  def self.change_screen_name_followers(user)
+    Follower.where(user: user, change_screen_name_flg: true)
+  end
+
 end

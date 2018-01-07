@@ -55,6 +55,9 @@ class FollowersController < ApplicationController
 
       @user.save
       
+      # 結果をDM連絡
+      send_dm(client, @user)
+      
     rescue Twitter::Error::TooManyRequests => error
       sleep error.rate_limit.reset_in
       retry
@@ -95,12 +98,52 @@ class FollowersController < ApplicationController
 
       @user.save
       
+      # 結果をDM連絡
+      send_dm(client, @user)
+      
     rescue Twitter::Error::TooManyRequests => error
       sleep error.rate_limit.reset_in
       retry
     end
     
     redirect_to followers_path
+  end
+
+private
+
+  # DM連絡
+  def send_dm(client, user)
+      if user.option.try(:dm_msg_flg)
+        new_followers = Follower.new_followers(user)
+        change_name_followers = Follower.change_name_followers(user)
+        change_screen_name_followers = Follower.change_screen_name_followers(user)
+        remove_followers = BeforeFollower.remove_followers(user)
+
+        msg = "#FFさんに挨拶 よりお知らせ\r\n\r\n"
+        msg += "◆#{I18n.t('activerecord.attributes.follower.new_flg')}フォロワーさん\r\n"
+        msg += "なし\r\n" if new_followers.blank?
+        new_followers.each do |f|
+          msg += "#{Settings.system[:twitter][:url]}#{f.screen_name}\r\n"
+        end
+        msg += "◆#{I18n.t('activerecord.attributes.follower.change_name_flg')}フォロワーさん\r\n"
+        msg += "なし\r\n" if change_name_followers.blank?
+        change_name_followers.each do |f|
+          msg += "#{Settings.system[:twitter][:url]}#{f.screen_name}\r\n"
+        end
+        msg += "◆#{I18n.t('activerecord.attributes.follower.change_screen_name_flg')}フォロワーさん\r\n"
+        msg += "なし\r\n" if change_screen_name_followers.blank?
+        change_screen_name_followers.each do |f|
+          msg += "#{Settings.system[:twitter][:url]}#{f.screen_name}\r\n"
+        end
+        msg += "◆#{I18n.t('activerecord.attributes.before_follower.remove_flg')}フォロワーさん\r\n"
+        msg += "なし\r\n" if remove_followers.blank?
+        remove_followers.each do |f|
+          msg += "#{Settings.system[:twitter][:url]}#{f.screen_name}\r\n"
+        end
+        msg += "\r\n詳細はログインしてご確認ください。#{root_url}"
+
+        client.create_direct_message(user.uid, msg)
+      end
   end
 
 end

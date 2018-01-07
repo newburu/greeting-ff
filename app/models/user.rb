@@ -13,6 +13,10 @@ class User < ApplicationRecord
   has_many :before_followers
   accepts_nested_attributes_for :before_followers
 
+  # 設定
+  has_one :option, :class_name => "UserOption"
+  accepts_nested_attributes_for :option
+
   validates :name, presence: true, uniqueness: true
 
   def self.new_with_session(params, session)

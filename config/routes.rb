@@ -25,4 +25,5 @@ Rails.application.routes.draw do
   end
 
   resources :tops
+  resources :user_options
 end

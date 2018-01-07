@@ -1,0 +1,7 @@
+ja:
+  activerecord:
+    models:
+      user_option: ユーザー設定
+    attributes:
+      user_option:
+        dm_msg_flg: DM連絡

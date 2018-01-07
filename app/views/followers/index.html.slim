@@ -46,7 +46,7 @@ table class="table table-striped table-hover "
       tr
         td = follower.uid
         td = follower.name
-        td = link_to follower.screen_name, "https://twitter.com/#{follower.screen_name}", {target: '_blank'}
+        td = link_to follower.screen_name, "#{Settings.system[:twitter][:url]}#{follower.screen_name}", {target: '_blank'}
         td = faicon_check(follower.new_flg)
         td = faicon_check(follower.change_name_flg)
         td = faicon_check(follower.change_screen_name_flg)

@@ -8,4 +8,9 @@ class BeforeFollower < ApplicationRecord
     self.remove_flg = true if follower.nil?
   end
 
+  # 外れたフォロワーさん取得
+  def self.remove_followers(user)
+    BeforeFollower.where(user: user, remove_flg: true)
+  end
+
 end
