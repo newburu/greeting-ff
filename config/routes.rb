@@ -26,4 +26,7 @@ Rails.application.routes.draw do
 
   resources :tops
   resources :user_options
+  
+  # その他のURLをエラーにする
+  get '*anything' => 'errors#routing_error'
 end
