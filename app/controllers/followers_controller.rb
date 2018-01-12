@@ -23,45 +23,12 @@ class FollowersController < ApplicationController
   # フォロワーさん一覧を更新
   def update_followers
     @user = User.find_by(name: current_user.name)
+
+    # 更新
+    Follower.update_followers(twitter_client, @user, session)
     
-    # Twitterから取得
-    client = Twitter::REST::Client.new do |config|
-      auth = session["DEVISE"]
-      config.consumer_key = ENV["TWITTER_API_KEY"]
-      config.consumer_secret = ENV["TWITTER_SECRET_KEY"]
-      config.access_token = auth.credentials.token
-      config.access_token_secret = auth.credentials.secret
-    end
-    begin
-      # フォロワー一覧を入れ直す為に、全削除
-      @user.backup_followers
-      @user.followers.delete_all
-
-      # フォロワー一覧を取得して、１００件ずつ情報を取得する
-      follower_ids = client.follower_ids(user_id: @user.uid).to_a
-      followers = follower_ids.each_slice(100).to_a.inject ([]) do |users, ids|
-        users.concat(client.users(ids))
-      end
-      followers.each do |f|
-        follower = Follower.new(user: @user, uid: f.id, name: f.name, screen_name: f.screen_name)
-        # フォロワーの状態チェック
-        follower.check_status
-        @user.followers << follower
-      end
-      @user.before_followers.each do |f|
-        # フォロワーの状態チェック
-        f.check_status
-      end
-
-      @user.save
-      
-      # 結果をDM連絡
-      send_dm(client, @user)
-      
-    rescue Twitter::Error::TooManyRequests => error
-      sleep error.rate_limit.reset_in
-      retry
-    end
+    # 結果をDM連絡
+    send_dm(twitter_client, @user)
     
     redirect_to followers_path
   end
@@ -70,41 +37,25 @@ class FollowersController < ApplicationController
   def update_friends
     @user = User.find_by(name: current_user.name)
     
-    # Twitterから取得
-    client = Twitter::REST::Client.new do |config|
-      auth = session["DEVISE"]
-      config.consumer_key = ENV["TWITTER_API_KEY"]
-      config.consumer_secret = ENV["TWITTER_SECRET_KEY"]
-      config.access_token = auth.credentials.token
-      config.access_token_secret = auth.credentials.secret
-    end
-    begin
-      # 入れ直す為に、全削除
-      @user.friends.delete_all
+    # 更新
+    Friend.update_friends(twitter_client, @user)
+    
+    # 結果をDM連絡
+    send_dm(twitter_client, @user)
+    
+    redirect_to followers_path
+  end
 
-      # フレンド（フォロー）一覧を取得
-      friend_ids = client.friend_ids(user_id: @user.uid).to_a
-      friends = friend_ids.each_slice(100).to_a.inject ([]) do |users, ids|
-        users.concat(client.users(ids))
-      end
-      friends.each do |f|
-        friend = Friend.new(user: @user, uid: f.id, name: f.name, screen_name: f.screen_name)
-        @user.friends << friend
-      end
-      @user.followers.each do |f|
-        # フォロワーの状態チェック
-        f.check_status
-      end
-
-      @user.save
-      
-      # 結果をDM連絡
-      send_dm(client, @user)
-      
-    rescue Twitter::Error::TooManyRequests => error
-      sleep error.rate_limit.reset_in
-      retry
-    end
+  # フレンド（フォロー）さん、フォロワーさん一覧を更新
+  def update_followers_friends
+    @user = User.find_by(name: current_user.name)
+    
+    # 更新
+    Follower.update_followers(twitter_client, @user, session)
+    Friend.update_friends(twitter_client, @user)
+    
+    # 結果をDM連絡
+    send_dm(twitter_client, @user)
     
     redirect_to followers_path
   end

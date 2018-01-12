@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { :omniauth_callbacks => "omniauth_callbacks" }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root 'static_pages#info'
+  root 'tops#index'
   
   # 静的ページ
   get 'static_pages/info'
@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   resources :followers do
     member do
+      get 'update_followers_friends'
       get 'update_followers'
       get 'update_friends'
     end

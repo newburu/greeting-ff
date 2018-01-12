@@ -21,9 +21,18 @@ html lang="en"
       #navbar.navbar-collapse.collapse
         ul.navbar-nav.mr-auto
           - if user_signed_in?
-            li.nav-item = link_to 'フォロワーさん一覧', followers_path, {class: "nav-link"}
-            li.nav-item = link_to '外れたフォロワーさん一覧', remove_index_followers_path, {class: "nav-link"}
-            
+            li.nav-item.dropdown
+              = link_to '機能', '#', {class: "nav-link dropdown-toggle", data: {toggle: "dropdown"}}
+              .dropdown-menu
+                = link_to 'フォロワーさん一覧', followers_path, {class: "dropdown-item"}
+                = link_to '外れたフォロワーさん一覧', remove_index_followers_path, {class: "dropdown-item"}
+            li.nav-item.dropdown
+              = link_to '更新', '#', {class: "nav-link dropdown-toggle", data: {toggle: "dropdown"}}
+              .dropdown-menu
+                = link_to "同期", update_followers_friends_follower_path(current_user.id), data: { :confirm => '同期します。よろしいですか?'}, class: "dropdown-item"
+                = link_to "フレンド（フォロー）さん更新", update_friends_follower_path(current_user.id), data: { :confirm => 'フレンド（フォロー）さんを更新します。よろしいですか?'}, class: "dropdown-item"
+                = link_to "フォロワーさん更新", update_followers_follower_path(current_user.id), data: { :confirm => 'フォロワーさんを更新します。よろしいですか?'}, class: "dropdown-item"
+
           li.nav-item = link_to "このサイトについて", static_pages_info_path, {class: "nav-link"}
           li.nav-item = link_to "更新履歴＆予定", static_pages_update_path, {class: "nav-link"}
         ul.nav.navbar-nav
