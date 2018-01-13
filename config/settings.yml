@@ -1,4 +1,5 @@
 system:
   title: 'FFさんに挨拶'
+  url: 'https://greeting-ff.herokuapp.com/'
   twitter:
     url: 'https://twitter.com/'

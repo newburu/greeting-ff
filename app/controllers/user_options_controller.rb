@@ -9,7 +9,6 @@ class UserOptionsController < ApplicationController
   def create
     @user_option = UserOption.new(user_option_params)
     @user_option.user = current_user
-    p @user_option
     if @user_option.save
       redirect_to edit_user_option_path(current_user), notice: I18n.t('msg.update.successfully')
     else
@@ -32,7 +31,7 @@ class UserOptionsController < ApplicationController
     end
   
     def user_option_params
-      params.require(:user_option).permit(:dm_msg_flg)
+      params.require(:user_option).permit(:dm_msg_flg, :auto_update_flg)
     end
 
 end

@@ -2,7 +2,7 @@ class Follower < ApplicationRecord
   belongs_to :user
 
   # フォロワーさん一覧を更新
-  def self.update_followers(client, user, session)
+  def self.update_followers(client, user)
     # Twitterから取得
     begin
       # フォロワー一覧を入れ直す為に、全削除

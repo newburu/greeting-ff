@@ -5,3 +5,4 @@ ja:
     attributes:
       user_option:
         dm_msg_flg: DM連絡
+        auto_update_flg: 自動同期

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180107060350) do
+ActiveRecord::Schema.define(version: 20180113044432) do
 
   create_table "before_followers", force: :cascade do |t|
     t.integer "user_id"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20180107060350) do
     t.boolean "dm_msg_flg"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "auto_update_flg"
     t.index ["user_id"], name: "index_user_options_on_user_id"
   end
 
@@ -89,6 +90,8 @@ ActiveRecord::Schema.define(version: 20180107060350) do
     t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "access_token"
+    t.string "access_token_secret"
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
