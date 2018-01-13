@@ -25,7 +25,7 @@ class FollowersController < ApplicationController
     @user = User.find_by(name: current_user.name)
 
     # 更新
-    Follower.update_followers(twitter_client, @user)
+    @user.update_followers(twitter_client)
     
     # 結果をDM連絡
     @user.send_dm(twitter_client, root_url)
@@ -38,7 +38,7 @@ class FollowersController < ApplicationController
     @user = User.find_by(name: current_user.name)
     
     # 更新
-    Friend.update_friends(twitter_client, @user)
+    @user.update_friends(twitter_client)
     
     # 結果をDM連絡
     @user.send_dm(twitter_client, root_url)
@@ -51,8 +51,8 @@ class FollowersController < ApplicationController
     @user = User.find_by(name: current_user.name)
     
     # 更新
-    Follower.update_followers(twitter_client, @user)
-    Friend.update_friends(twitter_client, @user)
+    @user.update_followers(twitter_client)
+    @user.update_friends(twitter_client)
     
     # 結果をDM連絡
     @user.send_dm(twitter_client, root_url)

@@ -1,37 +1,6 @@
 class Follower < ApplicationRecord
   belongs_to :user
 
-  # フォロワーさん一覧を更新
-  def self.update_followers(client, user)
-    # Twitterから取得
-    begin
-      # フォロワー一覧を入れ直す為に、全削除
-      user.backup_followers
-      user.followers.delete_all
-
-      # フォロワー一覧を取得して、１００件ずつ情報を取得する
-      follower_ids = client.follower_ids(user_id: user.uid).to_a
-      followers = follower_ids.each_slice(100).to_a.inject ([]) do |users, ids|
-        users.concat(client.users(ids))
-      end
-      followers.each do |f|
-        follower = Follower.new(user: user, uid: f.id, name: f.name, screen_name: f.screen_name)
-        # フォロワーの状態チェック
-        follower.check_status
-        user.followers << follower
-      end
-      user.before_followers.each do |f|
-        # フォロワーの状態チェック
-        f.check_status
-      end
-
-      user.save
-    rescue Twitter::Error::TooManyRequests => error
-      sleep error.rate_limit.reset_in
-      retry
-    end
-  end
-
   # フォロワーの状態チェック
   def check_status
     # 一旦、新規状態にする

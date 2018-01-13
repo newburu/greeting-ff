@@ -60,6 +60,67 @@ class User < ApplicationRecord
     end
   end
 
+  # フォロワーさん一覧を更新
+  def update_followers(client)
+    # Twitterから取得
+    begin
+      # フォロワー一覧を入れ直す為に、全削除
+      self.backup_followers
+      self.followers.delete_all
+
+      # フォロワー一覧を取得して、１００件ずつ情報を取得する
+      follower_ids = client.follower_ids(user_id: self.uid).to_a
+      followers = follower_ids.each_slice(100).to_a.inject ([]) do |users, ids|
+        users.concat(client.users(ids))
+      end
+      followers.each do |f|
+        follower = Follower.new(user: self, uid: f.id, name: f.name, screen_name: f.screen_name)
+        # フォロワーの状態チェック
+        follower.check_status
+        self.followers << follower
+      end
+      self.before_followers.each do |f|
+        # フォロワーの状態チェック
+        f.check_status
+      end
+
+      self.save
+    rescue Twitter::Error::TooManyRequests => error
+      sleep error.rate_limit.reset_in
+      retry
+    end
+  end
+
+
+  # フレンド（フォロー）さん一覧を更新
+  def update_friends(client)
+    # Twitterから取得
+    begin
+      # 入れ直す為に、全削除
+      self.friends.delete_all
+
+      # フレンド（フォロー）一覧を取得
+      friend_ids = client.friend_ids(user_id: self.uid).to_a
+      friends = friend_ids.each_slice(100).to_a.inject ([]) do |users, ids|
+        users.concat(client.users(ids))
+      end
+      friends.each do |f|
+        friend = Friend.new(user: self, uid: f.id, name: f.name, screen_name: f.screen_name)
+        self.friends << friend
+      end
+      self.followers.each do |f|
+        # フォロワーの状態チェック
+        f.check_status
+      end
+
+      self.save
+      
+    rescue Twitter::Error::TooManyRequests => error
+      sleep error.rate_limit.reset_in
+      retry
+    end
+  end
+
   # DM連絡
   def send_dm(client, url = Settings.system[:url])
       if option.try(:dm_msg_flg)
