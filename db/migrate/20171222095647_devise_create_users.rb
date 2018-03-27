@@ -1,6 +1,6 @@
 class DeviseCreateUsers < ActiveRecord::Migration[5.1]
   def change
-    create_table :users do |t|
+    create_table :users, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'  do |t|
 
       ## Trackable
       t.integer  :sign_in_count, :default => 0
