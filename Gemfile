@@ -120,3 +120,6 @@ gem 'activerecord-session_store'
 gem 'ransack'
 # ページネーション
 gem 'kaminari'
+
+# BULK INSERT
+gem 'activerecord-import'

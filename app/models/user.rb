@@ -73,18 +73,19 @@ class User < ApplicationRecord
       followers = follower_ids.each_slice(100).to_a.inject ([]) do |users, ids|
         users.concat(client.users(ids))
       end
+      user_followers = []
       followers.each do |f|
         follower = Follower.new(user: self, uid: f.id, name: f.name, screen_name: f.screen_name)
         # フォロワーの状態チェック
         follower.check_status
-        self.followers << follower
+        user_followers << follower
       end
       self.before_followers.each do |f|
         # フォロワーの状態チェック
         f.check_status
       end
 
-      self.save
+      Follower.import user_followers
     rescue Twitter::Error::TooManyRequests => error
       sleep error.rate_limit.reset_in
       retry
@@ -104,16 +105,17 @@ class User < ApplicationRecord
       friends = friend_ids.each_slice(100).to_a.inject ([]) do |users, ids|
         users.concat(client.users(ids))
       end
+      user_friends = []
       friends.each do |f|
         friend = Friend.new(user: self, uid: f.id, name: f.name, screen_name: f.screen_name)
-        self.friends << friend
+        user_friends << friend
       end
       self.followers.each do |f|
         # フォロワーの状態チェック
         f.check_status
       end
 
-      self.save
+      Friend.import user_friends
       
     rescue Twitter::Error::TooManyRequests => error
       sleep error.rate_limit.reset_in
