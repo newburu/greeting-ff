@@ -1,5 +1,6 @@
 system:
   title: 'FFさんに挨拶'
   url: 'https://greeting-ff.herokuapp.com/'
+  bbs_url: 'http://www.newburu.com/bbs/greeting-ff/joyful.cgi'
   twitter:
     url: 'https://twitter.com/'

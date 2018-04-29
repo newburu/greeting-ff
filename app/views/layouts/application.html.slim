@@ -35,6 +35,7 @@ html lang="en"
 
           li.nav-item = link_to "このサイトについて", static_pages_info_path, {class: "nav-link"}
           li.nav-item = link_to "更新履歴＆予定", static_pages_update_path, {class: "nav-link"}
+          li.nav-item = link_to "BBS(要望・問い合わせ)", Settings.system[:bbs_url], {class: "nav-link"}
         ul.nav.navbar-nav
           - if user_signed_in?
             span.navbar-text
