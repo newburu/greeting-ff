@@ -1,3 +1,9 @@
 html {
   font-size: 12px;
 }
+
+.has-error {
+  textarea {
+    border: 1px solid red;
+  }
+}

@@ -1,16 +1,18 @@
 h1 ユーザー設定
 ul
-  = form_for(@user_option) do |f|
+  = simple_form_for(@user_option) do |f|
+    = f.error_notification
     = f.submit class: "btn btn-primary"
     br
     br
     .btn-group
-      = f.label :dm_msg_flg, class: "btn btn-primary"
-        = f.check_box :dm_msg_flg
-        = f.label :dm_msg_flg
+      = f.input :dm_msg_flg
     br
     .btn-group
-      = f.label :auto_update_flg, class: "btn btn-primary"
-        = f.check_box :auto_update_flg
-        = f.label :auto_update_flg
-        
+      = f.input :auto_update_flg
+    br
+    .btn-group
+      = f.input :auto_follow_msg_flg
+    br
+    .btn-group
+      = f.input :auto_follow_msg

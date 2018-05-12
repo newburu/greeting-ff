@@ -2,10 +2,6 @@ class UserOptionsController < ApplicationController
 
   before_action :set_user_option, only: [:show, :edit, :update, :destroy]
 
-  def edit
-    
-  end
-
   def create
     @user_option = UserOption.new(user_option_params)
     @user_option.user = current_user
@@ -31,7 +27,7 @@ class UserOptionsController < ApplicationController
     end
   
     def user_option_params
-      params.require(:user_option).permit(:dm_msg_flg, :auto_update_flg)
+      params.require(:user_option).permit(:dm_msg_flg, :auto_update_flg, :auto_follow_msg_flg, :auto_follow_msg)
     end
 
 end

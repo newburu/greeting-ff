@@ -6,3 +6,5 @@ ja:
       user_option:
         dm_msg_flg: DM連絡
         auto_update_flg: 自動同期
+        auto_follow_msg_flg: 自動フォロー挨拶
+        auto_follow_msg: 挨拶メッセージ

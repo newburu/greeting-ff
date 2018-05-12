@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180113044432) do
+ActiveRecord::Schema.define(version: 20180510112926) do
 
   create_table "before_followers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.bigint "user_id"
@@ -74,6 +74,8 @@ ActiveRecord::Schema.define(version: 20180113044432) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "auto_update_flg"
+    t.boolean "auto_follow_msg_flg"
+    t.text "auto_follow_msg"
     t.index ["user_id"], name: "index_user_options_on_user_id"
   end
 
