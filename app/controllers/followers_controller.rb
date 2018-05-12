@@ -29,7 +29,10 @@ class FollowersController < ApplicationController
     
     # 結果をDM連絡
     @user.send_dm(twitter_client, root_url)
-    
+
+    # 新規フォロワーさんに自動挨拶
+    @user.send_new_follower_msg(twitter_client)
+
     redirect_to followers_path
   end
 
@@ -56,6 +59,9 @@ class FollowersController < ApplicationController
     
     # 結果をDM連絡
     @user.send_dm(twitter_client, root_url)
+
+    # 新規フォロワーさんに自動挨拶
+    @user.send_new_follower_msg(twitter_client)
     
     redirect_to followers_path
   end

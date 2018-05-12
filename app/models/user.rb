@@ -158,6 +158,21 @@ class User < ApplicationRecord
       end
   end
 
+  # 新規フォロワーさんに自動挨拶
+  def send_new_follower_msg(client)
+    # 全員が新規になった場合に、ツイートしすぎるのでお蔵入り
+    return
+    if option.try(:auto_follow_msg_flg)
+      new_followers = Follower.new_followers(self)
+
+      msg = option.try(:auto_follow_msg)
+      new_followers.each do |f|
+        client.update("#{f.screen_name} #{msg}")
+      end
+
+    end
+  end
+
   def twitter_client
     Twitter::REST::Client.new do |config|
         config.consumer_key        = ENV["TWITTER_API_KEY"]
