@@ -108,11 +108,6 @@ gem 'jquery-rails'
 gem 'omniauth'
 gem 'config'
 
-# TwitterBootstrap
-gem 'therubyracer' # javascript runtime。lessをコンパイルするために必要
-gem 'less-rails', git: 'https://github.com/MustafaZain/less-rails' # Railsでlessを使えるようにする。Bootstrapがlessで書かれているため
-gem 'twitter-bootstrap-rails' # Bootstrapの本体
-
 # sessionをDBに変更
 gem 'activerecord-session_store'
 
